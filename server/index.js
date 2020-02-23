@@ -1,23 +1,23 @@
 // create a server and route to handle the client get request by sending back
 // data on the requested animal in db.js
 const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
 const db = require('./db/db');
+const cors = require('cors');
 
-app.use(bodyParser.json())
+const app = express();
+
+app.use(cors())
 
 
 
 app.get('/:animal', (req, res) => {
 
-    res.json(db[req.params.animal])
-
-})
-
-// res.send(`${req.params.student} is ${db[req.params.student].age} years old and they are a huge fan of ${db[req.params.student].hobby}`); // { student: 'sean' } ----> returns 'Golfing' in server when you check Postman with Bailey as endpoint
-// // can also do res.json(db[req.params.student]) to get the postman to show info
-// })
+    res.send({
+        currentAnimal: req.params.animal,
+        currentAnimalPicture: db.animals[`${req.params.animal}Picture`],
+        currentAnimalCount: db.animals[`${req.params.animal}Count`],
+    });
+});
 
 // app.post('/:student', (req, res) => {
 // console.log(req.body);
